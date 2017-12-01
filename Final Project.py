@@ -26,10 +26,11 @@ class GuestBook:
                 
                 #Row 1
                 #dropdown box for inits
-                self.inits = StringVar()
+                self.title = StringVar()
                 label = Label(window, text = "Title", width = 6, justify = CENTER).grid(row = 1, column = 1, sticky = W+E ) 
-                initials = [' ','Ms.','Mrs.','Mr.', 'Dr.']
-                inits = Combobox(window, width='4', height='5', textvariable=self.inits, values=initials).grid(row = 1, column = 2, columnspan = 1, sticky = W+E)
+                titles = [' ','Ms.','Mrs.','Mr.', 'Dr.']
+                title = Combobox(window, width='4', height='5', textvariable=self.title, values=titles).grid(row = 1, column = 2, columnspan = 1, sticky = W+E)
+       
 
                 #Create the label for the guests first name
                 label = Label(window, text = "First Name", width = 10,justify = LEFT).grid(row = 1, column = 3)
@@ -40,8 +41,8 @@ class GuestBook:
                 #Create the label for the guests Middle Initial
                 label = Label(window, text = "Middle", width = 6,justify = CENTER).grid(row = 1, column = 5)
                 #Entry box for the guests name
-                self.middleinitial = StringVar()
-                middleinitial = Entry(window, textvariable = self.middleinitial, justify = LEFT).grid(row = 1, column =6, sticky = W)
+                self.middle = StringVar()
+                middle = Entry(window, textvariable = self.middle, justify = LEFT).grid(row = 1, column =6, sticky = W)
                 
 
                 #Create the label for the guests last name
@@ -85,7 +86,6 @@ class GuestBook:
                 #Create a lable for the guests birthdate
                 label = Label(window, text = "Birth Date", width = 10, justify = RIGHT).grid(row = 3, column = 2)
                 #entry box for the guests city
-                self.birth = StringVar()
                 self.birthDay = StringVar()
                 self.birthMonth = StringVar()
                 self.birthYear = StringVar()
@@ -98,6 +98,7 @@ class GuestBook:
                           '1946','1945','1943','1942','1941','1940','1939','1938','1937','1936','1935','1934','1933','1932','1931','1930','1929','1928','1927','1926','1925','1924','1923','1922',
                           '1921','1920','1919','1918','1917','1916','1915','1914','1913','1912','1911','1910']
                 birthYear = Combobox(window, width='4', height='5', textvariable=self.birthYear, values=birthY).grid(row = 3, column = 5, columnspan = 1, sticky = W+E)
+ 
                 
                 #ask if they are interested in promotional emails
                 #ask how they heard about us
@@ -112,8 +113,6 @@ class GuestBook:
                 comments = Entry(window, textvariable = self.comments, justify = LEFT).grid(row = 5, rowspan = 2, column = 1, columnspan = 8,  sticky = W+E)
                 
                 
-                #ContactInfo = [inits, firstname, lastname, street, city, state, zipcode, comments]
-
                 #insert the image           
                 #logo.grid(row = 1, column = 2, columnspan = 2, rowspan = 2, sticky = W+E+N+S, padx=1, pady =1)
 
@@ -125,18 +124,22 @@ class GuestBook:
 
         def SaveButton(self):
                 #This displays the inputs ont the screen so a running copy can be seen
-                print(self.firstname.get(), self.lastname.get(), self.street.get(), self.city.get(), self.state.get(),
-                      self.zipcode.get(), self.comments.get(), self.mail.get())
+                print(self.title.get(), self.firstname.get(),self.middle.get(), self.lastname.get(), self.street.get(), self.city.get(), self.state.get(),
+                      self.zipcode.get(),self.birthDay.get(), self.birthMonth.get(), self.birthYear.get(), self.comments.get())
                 #This creates a list of all the inputs
-                data = [str(self.firstname.get()), str(self.lastname.get()), str(self.street.get()),
-                        str(self.city.get()), str(self.state.get()), str(self.zipcode.get()), str(self.comments.get()), str(self.mail.get())]
+                data = [str(self.title.get()), str(self.firstname.get()),str(self.middle.get()), str(self.lastname.get()), str(self.street.get()), str(self.city.get()), str(self.state.get()),
+                      str(self.zipcode.get()), str(self.birthDay.get()), str(self.birthMonth.get()), str(self.birthYear.get()), str(self.comments.get())]
                 #This exports that list to a .csv seperating values by commas, writing exactly the values entered
                 with open('GuestLog.csv', 'a') as f:
                         writer = csv.writer(f, delimiter=',',quotechar='|', quoting=csv.QUOTE_MINIMAL)
                         writer.writerow(data)
                 #checks each box to make sure they are empty, if not it clears entries
+                if self.title != "":
+                        self.title.set('')
                 if self.firstname !=  "":
                         self.firstname.set('')
+                if self.middle != "":
+                        self.middle.set('')
                 if self.lastname != "":
                         self.lastname.set('')
                 if self.street != "":
@@ -147,6 +150,12 @@ class GuestBook:
                         self.state.set('')
                 if self.zipcode != "":
                         self.zipcode.set('')
+                if self.birthDay != '':
+                        self.birthDay.set('')
+                if self.birthMonth != '':
+                        self.birthMonth.set('')
+                if self.birthYear != '':
+                        self.birthYear.set('')                        
                 if self.comments != "":
                         self.comments.set('')
 
